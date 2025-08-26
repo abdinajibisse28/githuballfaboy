@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tic-Tac-Toe Responsive</title>
+  <style>
+    :root{
+      --bg1: #1a2a6c;
+      --bg2: #b21f1f;
+      --bg3: #fdbb2d;
+      --surface: rgba(255,255,255,0.05);
+      --text: #f0f0f0;
+      --accent-x: #4ee7ff;
+      --accent-o: #ff8fcf;
+      --win: #4de38a;
+    }
+
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:system-ui, sans-serif;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+      color:var(--text);
+    }
+
+    .game{
+      width:min(94vw, 480px);
+      display:grid;
+      gap:16px;
+    }
+
+    h1{ text-align:center; margin:0 0 12px; }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+    }
+    .cell{
+      width:100%;
+      aspect-ratio:1/1;
+      border-radius:12px;
+      background:var(--surface);
+      border:1px solid rgba(255,255,255,0.2);
+      font-size:clamp(32px,14vw,64px);
+      font-weight:800;
+      color:var(--text);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition:transform .1s ease;
+    }
+    .cell:hover{ transform:scale(1.04); }
+    .cell.x{ color:var(--accent-x); }
+    .cell.o{ color:var(--accent-o); }
+    .cell.win{ color:var(--win); }
+
+    .info{ text-align:center; font-size:1.1rem; }
+
+    /* Overlay screen for win/draw */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.8);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap:20px;
+      font-size:1.5rem;
+      visibility:hidden;
+      opacity:0;
+      transition:opacity .3s ease;
+      z-index:10;
+    }
+    .overlay.show{
+      visibility:visible;
+      opacity:1;
+    }
+    .overlay button{
+      padding:.6em 1.2em;
+      font-size:1rem;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      background:linear-gradient(90deg,#06beb6,#48b1bf);
+      color:white;
+      font-weight:bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="game">
+    <h1>Tic-Tac-Toe</h1>
+    <div class="grid" id="grid"></div>
+    <div class="info" id="turn">Turn: <span style="color:var(--accent-x)">X</span></div>
+  </div>
+
+  <!-- End Screen Overlay -->
+  <div class="overlay" id="overlay">
+    <div id="resultText"></div>
+    <button id="newGameBtn">New Game</button>
+  </div>
+
+  <script>
+    (function(){
+      const gridEl=document.getElementById('grid');
+      const turnEl=document.getElementById('turn');
+      const overlay=document.getElementById('overlay');
+      const resultText=document.getElementById('resultText');
+      const newGameBtn=document.getElementById('newGameBtn');
+
+      const WINS=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+      let board,current,gameOver;
+
+      function init(){
+        board=Array(9).fill(null);
+        current='X'; gameOver=false;
+        gridEl.innerHTML='';
+        for(let i=0;i<9;i++){
+          const btn=document.createElement('button');
+          btn.className='cell';
+          btn.dataset.index=i;
+          btn.addEventListener('click',onMove);
+          gridEl.appendChild(btn);
+        }
+        updateTurn();
+        overlay.classList.remove('show');
+      }
+
+      function updateTurn(){
+        turnEl.innerHTML=`Turn: <span style="color:${current==='X'?'var(--accent-x)':'var(--accent-o)'}">${current}</span>`;
+      }
+
+      function onMove(e){
+        if(gameOver) return;
+        const idx=e.currentTarget.dataset.index;
+        if(board[idx]) return;
+        board[idx]=current;
+        e.currentTarget.textContent=current;
+        e.currentTarget.classList.add(current.toLowerCase());
+        const winLine=getWinLine();
+        if(winLine){
+          winLine.forEach(i=>gridEl.children[i].classList.add('win'));
+          endGame(`${current} Wins!`);
+          return;
+        }
+        if(board.every(Boolean)){
+          endGame("It's a Draw!");
+          return;
+        }
+        current=current==='X'?'O':'X';
+        updateTurn();
+      }
+
+      function getWinLine(){
+        for(const [a,b,c] of WINS){
+          if(board[a] && board[a]===board[b] && board[a]===board[c]) return [a,b,c];
+        }
+        return null;
+      }
+
+      function endGame(msg){
+        gameOver=true;
+        resultText.textContent=msg;
+        overlay.classList.add('show');
+      }
+
+      newGameBtn.addEventListener('click',init);
+
+      init();
+    })();
+  </script>
+</body>
+</html>
