@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FC Victory - Football Club</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0c4da2;
+            --secondary: #e63946;
+            --accent: #f9a826;
+            --dark: #1d3557;
+            --light: #f1faee;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&auto=format&fit=crop&w=1800&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #c1121f;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .player-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .player-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .player-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .player-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .player-card:hover .player-image img {
+            transform: scale(1.1);
+        }
+
+        .player-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .player-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .player-position {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .player-stats {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Matches Section */
+        .matches {
+            background-color: var(--light);
+        }
+
+        .matches-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .match-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .team-logo {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+
+        .team-name {
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .match-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .match-date {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .match-time {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .match-stadium {
+            margin-top: 5px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* News Section */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .news-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-date {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .news-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .news-content p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .read-more {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .footer-column p {
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ddd;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--primary);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+                color: white;
+            }
+
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .match-card {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .team {
+                flex-direction: row;
+                gap: 15px;
+                justify-content: center;
+            }
+
+            .vs {
+                margin: 10px 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .player-stats {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHBhdGggZmlsbD0iI2Y5YTgyNiIgZD0iTTMyIDBDMTQuMzMgMCAwIDE0LjMzIDAgMzJzMTQuMzMgMzIgMzIgMzIgMzItMTQuMzMgMzItMzJTNDkuNjcgMCAzMiAwem0xNS41IDQ0LjVjLTMuNjUgNi44NC05LjgxIDExLjUtMTcuMDIgMTEuNS0uMzYgMC0uNzEtLjAyLTEuMDctLjA0QzM0LjM4IDUzLjY3IDQwLjUgNDMuODQgNDAuNSAzMmMwLTExLjg0LTYuMTItMjEuNjctMTUuMDktMjcuNDYuMzYtLjAyLjcxLS4wNCAxLjA5LS4wNCA3LjIxIDAgMTMuMzcgNC42NiAxNy4wMiAxMS41QzQ3Ljg3IDIwLjM3IDUyIDI1LjY2IDUyIDMyYzAgNi4zNC00LjEzIDExLjYzLTQuNSA0LjV6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTM1LjI1IDM1LjI1bDQuNSA5TDM0IDM4bC01Ljc1IDYuMjUgNC41LTktNC41LTkuMjVMNDAgMzBsLTQuNzUgNS4yNXoiLz48L3N2Zz4=" alt="FC Victory Logo">
+                    <div class="logo-text">FC Victory</div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Matches</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Welcome to FC Victory</h1>
+                <p>Passion. Pride. Victory. Join us on our journey to glory in the premier league.</p>
+                <a href="#" class="btn">Buy Tickets</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Squad</h2>
+                <p>Meet the talented players who make FC Victory a force to be reckoned with</p>
+            </div>
+            <div class="team-grid">
+                <div class="player-card">
+                    <div class="player-image">
+                        <img src="https://images.unsplash.com/photo-1560272564-c83b66b1ad12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Player 1">
+                    </div>
+                    <div class="player-info">
+                        <h3>James Wilson</h3>
+                        <div class="player-position">Forward</div>
+                        <div class="player-stats">
+                            <div class="stat">
+                                <div class="stat-number">24</div>
+                                <div class="stat-label">Goals</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">12</div>
+                                <div class="stat-label">Assists</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">10</div>
+                                <div class="stat-label">Matches</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-card">
+                    <div class="player-image">
+                        <img src="https://images.unsplash.com/photo-1552667466-07770ae110d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Player 2">
+                    </div>
+                    <div class="player-info">
+                        <h3>Marcus Johnson</h3>
+                        <div class="player-position">Midfielder</div>
+                        <div class="player-stats">
+                            <div class="stat">
+                                <div class="stat-number">8</div>
+                                <div class="stat-label">Goals</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">18</div>
+                                <div class="stat-label">Assists</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">12</div>
+                                <div class="stat-label">Matches</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-card">
+                    <div class="player-image">
+                        <img src="https://images.unsplash.com/photo-1519861531473-9200262188bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Player 3">
+                    </div>
+                    <div class="player-info">
+                        <h3>David Chen</h3>
+                        <div class="player-position">Defender</div>
+                        <div class="player-stats">
+                            <div class="stat">
+                                <div class="stat-number">2</div>
+                                <div class="stat-label">Goals</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">5</div>
+                                <div class="stat-label">Assists</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">14</div>
+                                <div class="stat-label">Matches</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-card">
+                    <div class="player-image">
+                        <img src="https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Player 4">
+                    </div>
+                    <div class="player-info">
+                        <h3>Thomas Müller</h3>
+                        <div class="player-position">Goalkeeper</div>
+                        <div class="player-stats">
+                            <div class="stat">
+                                <div class="stat-number">6</div>
+                                <div class="stat-label">Clean Sheets</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">42</div>
+                                <div class="stat-label">Saves</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">12</div>
+                                <div class="stat-label">Matches</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Matches Section -->
+    <section class="matches">
+        <div class="container">
+            <div class="section-title">
+                <h2>Upcoming Matches</h2>
+                <p>Don't miss our next games. Come support the team!</p>
+            </div>
+            <div class="matches-container">
+                <div class="match-card">
+                    <div class="team">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHBhdGggZmlsbD0iI2Y5YTgyNiIgZD0iTTMyIDBDMTQuMzMgMCAwIDE0LjMzIDAgMzJzMTQuMzMgMzIgMzIgMzIgMzItMTQuMzMgMzItMzJTNDkuNjcgMCAzMiAwem0xNS41IDQ0LjVjLTMuNjUgNi44NC05LjgxIDExLjUtMTcuMDIgMTEuNS0uMzYgMC0uNzEtLjAyLTEuMDctLjA0QzM0LjM4IDUzLjY3IDQwLjUgNDMuODQgNDAuNSAzMmMwLTExLjg0LTYuMTItMjEuNjctMTUuMDktMjcuNDYuMzYtLjAyLjcxLS4wNCAxLjA5LS4wNCA3LjIxIDAgMTMuMzcgNC42NiAxNy4wMiAxMS41QzQ3Ljg3IDIwLjM3IDUyIDI1LjY2IDUyIDMyYzAgNi4zNC00LjEzIDExLjYzLTQuNSA0LjV6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTM1LjI1IDM1LjI1bDQuNSA5TDM0IDM4bC01Ljc1IDYuMjUgNC41LTktNC41LTkuMjVMNDAgMzBsLTQuNzUgNS4yNXoiLz48L3N2Zz4=" alt="FC Victory" class="team-logo">
+                        <div class="team-name">FC Victory</div>
+                    </div>
+                    <div class="match-details">
+                        <div class="match-date">Sept 15, 2023</div>
+                        <div class="match-time">19:45</div>
+                        <div class="match-stadium">Victory Arena</div>
+                    </div>
+                    <div class="team">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHBhdGggZmlsbD0iI2RkMGM0MCIgZD0iTTAgMGg2NHY2NEgweiIvPjxwYXRoIGZpbGw9IiMwMDAwMDAiIGQ9Ik0xNiAxNmgzMnYzMkgxNnoiLz48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMjQgMjRoMTZ2MTZIMjR6Ii8+PC9zdmc+" alt="United City" class="team-logo">
+                        <div class="team-name">United City</div>
+                    </div>
+                </div>
+                <div class="match-card">
+                    <div class="team">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHBhdGggZmlsbD0iI2RkMGM0MCIgZD0iTTAgMGg2NHY2NEgweiIvPjxwYXRoIGZpbGw9IiMwMDAwMDAiIGQ9Ik0xNiAxNmgzMnYzMkgxNnoiLz48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMjQgMjRoMTZ2MTZIMjR6Ii8+PC9zdmc+" alt="United City" class="team-logo">
+                        <div class="team-name">United City</div>
+                    </div>
+                    <div class="match-details">
+                        <div class="match-date">Sept 22, 2023</div>
+                        <div class="match-time">15:00</div>
+                        <div class="match-stadium">City Stadium</div>
+                    </div>
+                    <div class="team">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHBhdGggZmlsbD0iI2Y5YTgyNiIgZD0iTTMyIDBDMTQuMzMgMCAwIDE0LjMzIDAgMzJzMTQuMzMgMzIgMzIgMzIgMzItMTQuMzMgMzItMzJTNDkuNjcgMCAzMiAwem0xNS41IDQ0LjVjLTMuNjUgNi44NC05LjgxIDExLjUtMTcuMDIgMTEuNS0uMzYgMC0uNzEtLjAyLTEuMDctLjA0QzM0LjM4IDUzLjY3IDQwLjUgNDMuODQgNDAuNSAzMmMwLTExLjg0LTYuMTItMjEuNjctMTUuMDktMjcuNDYuMzYtLjAyLjcxLS4wNCAxLjA5LS4wNCA3LjIxIDAgMTMuMzcgNC42NiAxNy4wMiAxMS41QzQ3Ljg3IDIwLjM3IDUyIDI1LjY2IDUyIDMyYzAgNi4zNC00LjEzIDExLjYzLTQuNSA0LjV6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTM1LjI1IDM1LjI1bDQuNSA5TDM0IDM4bC01Ljc1IDYuMjUgNC41LTktNC41LTkuMjVMNDAgMzBsLTQuNzUgNS4yNXoiLz48L3N2Zz4=" alt="FC Victory" class="team-logo">
+                        <div class="team-name">FC Victory</div>
+                    </div>
+                </div>
+                <div class="match-card">
+                    <div class="team">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHBhdGggZmlsbD0iI2Y5YTgyNiIgZD0iTTMyIDBDMTQuMzMgMCAwIDE4LjMzIDAgMzJzMTQuMzIgMzIgMzIgMzIgMzItMTQuMzMgMzItMzJTNDkuNjggMCAzMiAweiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0zMiA4YzEzLjI1IDAgMjQgMTAuNzUgMjQgMjRTNDUuMjUgNTYgMzIgNTYgOCA0NS4yNSA4IDMyIDE4Ljc1IDggMzIgOHoiLz+PHBhdGggZmlsbD0iI2Y5YTgyNiIgZD0iTTMyIDEyYzExLjA1IDAgMjAgOC45NSAyMCAyMFM0My4wNSA1MiAzMiA1MiAxMiA0My4wNSAxMiAzMnMyMC04Ljk1IDIwLTIweiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0zOCAzMkg0NnY0SDM4ek0xOCAzMkgydjRoMTZ6TTMyIDM4djE2aDRWMzh6TTMyIDEwdjRoNFYxMHoiLz48L3N2Zz4=" alt="Dynamo FC" class="team-logo">
+                        <div class="team-name">Dynamo FC</div>
+                    </div>
+                    <div class="match-details">
+                        <div class="match-date">Oct 1, 2023</div>
+                        <div class="match-time">18:30</div>
+                        <div class="match-stadium">Victory Arena</div>
+                    </div>
+                    <div class="team">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHBhdGggZmlsbD0iI2Y5YTgyNiIgZD0iTTMyIDBDMTQuMzMgMCAwIDE0LjMzIDAgMzJzMTQuMzMgMzIgMzIgMzIgMzItMTQuMzMgMzItMzJTNDkuNjcgMCAzMiAwem0xNS41IDQ0LjVjLTMuNjUgNi44NC05LjgxIDExLjUtMTcuMDIgMTEuNS0uMzYgMC0uNzEtLjAyLTEuMDctLjA0QzM0LjM4IDUzLjY3IDQwLjUgNDMuODQgNDAuNSAzMmMwLTExLjg0LTYuMTItMjEuNjctMTUuMDktMjcuNDYuMzYtLjAyLjcxLS4wNCAxLjA5LS4wNCA3LjIxIDAgMTMuMzcgNC42NiAxNy4wMiAxMS41QzQ3Ljg3IDIwLjM3IDUyIDI1LjY2IDUyIDMyYzAgNi4zNC00LjEzIDExLjYzLTQuNSA0LjV6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTM1LjI1IDM1LjI1bDQuNSA5TDM0IDM4bC01Ljc1IDYuMjUgNC41LTktNC41LTkuMjVMNDAgMzBsLTQuNzUgNS4yNXoiLz48L3N2Zz4=" alt="FC Victory" class="team-logo">
+                        <div class="team-name">FC Victory</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section class="news">
+        <div class="container">
+            <div class="section-title">
+                <h2>Latest News</h2>
+                <p>Stay updated with the latest from FC Victory</p>
+            </div>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://images.unsplash.com/photo-1574623452334-1e0ac2b3ccb4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="News 1">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">Sept 5, 2023</div>
+                        <h3>FC Victory Signs New Striker from Brazil</h3>
+                        <p>The club is excited to announce the signing of Carlos Silva from Santos FC. The 24-year-old striker has signed a 4-year contract.</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://images.unsplash.com/photo-1516466723877-e4ec1d736c8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="News 2">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">Sept 2, 2023</div>
+                        <h3>Victory Stadium to Undergo Renovation</h3>
+                        <p>The club has announced plans to expand Victory Stadium, adding 5,000 seats and improving facilities for the 2024 season.</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://images.unsplash.com/photo-1599669454699-248893623464?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="News 3">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">Aug 28, 2023</div>
+                        <h3>Youth Team Reaches National Finals</h3>
+                        <p>FC Victory's U-18 team has reached the national championship finals after a thrilling 3-2 victory over rivals City United.</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FC Victory</h3>
+                    <p>Passion. Pride. Victory. Since 1952</p>
+                    <p>Victory Arena<br>123 Football Road<br>Sports City, SC 12345</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Matches</a></li>
+                        <li><a href="#">News</a></li>
+                        <li><a href="#">Shop</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Ticket Information</a></li>
+                        <li><a href="#">Membership</a></li>
+                        <li><a href="#">Stadium Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Connect With Us</h3>
+                    <p>Subscribe to our newsletter for updates</p>
+                    <div class="social-links">
+                       
